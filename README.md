@@ -1,5 +1,5 @@
 # TipCalculator
-CoderSchool.vn Challenge
-Demo Tip Calculator
+CoderSchool.vn 
+Demo TipCalculator
 
-![tipcalculatordemo](https://cloud.githubusercontent.com/assets/10734967/18536054/c1142e66-7b23-11e6-999a-75845464c380.gif)
+![tipcalculatordemo1](https://cloud.githubusercontent.com/assets/10734967/18679711/fcc9c45a-7f8a-11e6-89ba-85829b22c4af.gif)
