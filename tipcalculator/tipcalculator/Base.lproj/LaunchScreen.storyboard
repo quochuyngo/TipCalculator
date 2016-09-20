@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,26 +18,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" text="Tip Calculator" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QMs-nJ-hlC">
-                                <rect key="frame" x="36" y="279" width="303" height="50"/>
+                                <rect key="frame" x="36" y="309" width="303" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="HqY-up-j0C"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="oFd-rA-Rva"/>
+                                    <constraint firstAttribute="height" constant="50" id="pva-4A-b2a"/>
+                                    <constraint firstAttribute="width" constant="303" id="sXL-CB-8Qd"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="42"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="35"/>
                                 <color key="textColor" red="0.99631458520889282" green="0.9955628514289856" blue="0.99211388826370239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="HqY-up-j0C"/>
-                                    </mask>
-                                </variation>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.67001324892044067" green="0.92798054218292236" blue="0.79193830490112305" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QMs-nJ-hlC" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="259" id="EhM-wB-b30"/>
-                            <constraint firstItem="QMs-nJ-hlC" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="q9R-76-FzN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="QMs-nJ-hlC" secondAttribute="trailing" constant="20" id="sKa-ya-2Gi"/>
+                            <constraint firstItem="QMs-nJ-hlC" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="9lm-eF-GyD"/>
+                            <constraint firstItem="QMs-nJ-hlC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="GS5-xq-bBx"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
