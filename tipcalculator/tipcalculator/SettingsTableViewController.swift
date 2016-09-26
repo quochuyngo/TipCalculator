@@ -14,17 +14,18 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var clearDataSwitch: UISwitch!
     @IBOutlet weak var timeClearDataSlider: UISlider!
     @IBOutlet weak var timeClearDataLabel: UILabel!
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
+    @IBOutlet weak var themeSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //set settings default
         tipPercentageSegmentControl.selectedSegmentIndex = Settings.segmentIndex;
-        clearDataSwitch.on = Settings.isClearData
+        clearDataSwitch.isOn = Settings.isClearData
         if !Settings.isClearData{
-            timeClearDataSlider.enabled = false
+            timeClearDataSlider.isEnabled = false
         }
+        themeSwitch.isOn = Settings.isLight
         timeClearDataSlider.value = Float(Settings.timeToClearData)
         timeClearDataLabel.text = String(format:"%d minutes", Int(timeClearDataSlider.value))
     }
@@ -34,26 +35,27 @@ class SettingsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         Settings.segmentIndex = tipPercentageSegmentControl.selectedSegmentIndex
-        Settings.isClearData = clearDataSwitch.on
+        Settings.isClearData = clearDataSwitch.isOn
         Settings.timeToClearData = Int(timeClearDataSlider.value)
+        Settings.isLight = themeSwitch.isOn
         //defaults.setObject(Settings.toDictionary(), forKey: Keys.APP_SETTINGS)
         print(Settings.toDictionary())
     }
     
-    @IBAction func clearDataValueChanged(sender: AnyObject) {
+    @IBAction func clearDataValueChanged(_ sender: AnyObject) {
         timeClearDataLabel.text = String(format:"%d minutes", Int(timeClearDataSlider.value))
     }
     
-    @IBAction func clearDataValueChangedSwitch(sender: AnyObject) {
-        if !clearDataSwitch.on{
-            timeClearDataSlider.enabled = false
-            timeClearDataLabel.enabled = false
+    @IBAction func clearDataValueChangedSwitch(_ sender: AnyObject) {
+        if !clearDataSwitch.isOn{
+            timeClearDataSlider.isEnabled = false
+            timeClearDataLabel.isEnabled = false
         }
         else{
-            timeClearDataSlider.enabled = true
-            timeClearDataLabel.enabled = true
+            timeClearDataSlider.isEnabled = true
+            timeClearDataLabel.isEnabled = true
         }
     }
   }

@@ -14,18 +14,21 @@ struct Keys{
     static let MOST_RECENT:String = "mostRecent"
     static let APP_SETTINGS:String = "appSettings"
     static let IS_CLEAR_DATA:String = "isClearData"
+    static let THEME:String = "isLight"
 }
 
 struct Settings {
     static var segmentIndex:Int = 0
     static var timeToClearData:Int = 0
     static var isClearData:Bool = true
+    static var isLight:Bool = true
     
     static func toDictionary() -> Dictionary<String, AnyObject>{
         return [
-            Keys.SEGMENT_INDEX : self.segmentIndex,
-            Keys.TIME_CLEAR_DATA : self.timeToClearData,
-            Keys.IS_CLEAR_DATA: self.isClearData
+            Keys.SEGMENT_INDEX : self.segmentIndex as AnyObject,
+            Keys.TIME_CLEAR_DATA : self.timeToClearData as AnyObject,
+            Keys.IS_CLEAR_DATA: self.isClearData as AnyObject,
+            Keys.THEME: self.isLight as AnyObject
         ]
     }
     
@@ -41,6 +44,9 @@ struct Settings {
         if let isClearData = dictionary[Keys.IS_CLEAR_DATA] as? Bool{
             self.isClearData = isClearData
         }
-
+        
+        if let isLight = dictionary[Keys.THEME] as? Bool{
+            self.isLight = isLight
+        }
     }
 }

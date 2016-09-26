@@ -11,13 +11,14 @@ import UIKit
 class Time{
     static func getCurrentTime()->Int{
         let currentDate = NSDate()
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.LongStyle
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.long
         
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Hour, .Minute, .Second], fromDate: currentDate)
-        let curentTime = components.hour*60 + components.minute
+        let calendar = NSCalendar.current
+        //let components = calendar.components([.Hour, .Minute, .Second], fromDate: currentDate)
+        let hour = calendar.component(.hour, from: currentDate as Date)
+        let minute = calendar.component(.minute, from: currentDate as Date)
+        let curentTime = hour*60 + minute
         return curentTime
     }
-
 }

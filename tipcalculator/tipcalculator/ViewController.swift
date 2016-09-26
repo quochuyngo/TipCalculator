@@ -26,20 +26,20 @@ class ViewController: UIViewController, UITableViewDataSource{
         super.viewDidLoad()
         
         //set animation
-        self.tipControl.alpha = 0
-        self.view.alpha = 0;
-        UIView.animateWithDuration(0.4, animations: {
-            self.tipControl.alpha = 1
-            self.view.alpha = 1
+        //billTextField.center.x -= view.bounds.width
+        //self.view.alpha = 0;
+        UIView.animate(withDuration: 0.4, delay:0.45, options: .transitionFlipFromLeft, animations: {
+            
+            self.billTextField.center.y += self.view.bounds.height
         })
-        
+
         //set focus to the textField
         billTextField.becomeFirstResponder()
         recentTableView.dataSource = self
         
         //get settings
-        if let dict = NSUserDefaults.standardUserDefaults().objectForKey(Keys.APP_SETTINGS) as? Dictionary<String, AnyObject>{
-            Settings.fromDictionary(dict)
+        if let dict = UserDefaults.standard.object(forKey: Keys.APP_SETTINGS) as? Dictionary<String, AnyObject>{
+            Settings.fromDictionary(dictionary: dict)
             tipControl.selectedSegmentIndex = Settings.segmentIndex
         }
         
@@ -48,12 +48,15 @@ class ViewController: UIViewController, UITableViewDataSource{
         
         if Settings.isClearData{
             //get time recent
-            let timeRecent = NSUserDefaults.standardUserDefaults().integerForKey(Keys.MOST_RECENT)
+            let timeRecent = UserDefaults.standard.integer(forKey: Keys.MOST_RECENT)
             let curentTime = Time.getCurrentTime()
+            print(curentTime - timeRecent)
+            print(Settings.timeToClearData )
             if (curentTime - timeRecent) > Settings.timeToClearData {
                 recentBills.removeAll()
             }
         }
+        self.automaticallyAdjustsScrollViewInsets = false
         recentTableView.reloadData()
     }
 
@@ -62,14 +65,14 @@ class ViewController: UIViewController, UITableViewDataSource{
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onTapScreen(sender: AnyObject) {
+    @IBAction func onTapScreen(_ sender: AnyObject) {
         view.endEditing(true)
         
         if isTextFieldFocused{
             isTextFieldFocused = false
             if(!(billTextField.text?.isEmpty)!){
                 //recentBills.append(Bill(bill: bill, tip: tip)!)
-                recentBills.insert(Bill(bill: bill, tip: tip)!, atIndex: 0)
+                recentBills.insert(Bill(bill: bill, tip: tip)!, at: 0)
                 recentTableView.reloadData()
             }
             saveRecentBills()
@@ -77,54 +80,69 @@ class ViewController: UIViewController, UITableViewDataSource{
         
     }
 
-    @IBAction func tipSegmentValueChanged(sender: AnyObject) {
+    @IBAction func tipSegmentValueChanged(_ sender: AnyObject) {
         calculateTip()
         
-        if(!(billTextField.text?.isEmpty)!){
+        /*if(!(billTextField.text?.isEmpty)!){
             recentBills.append(Bill(bill: bill, tip: tip)!)
             recentTableView.reloadData()
-        }
+        }*/
     }
-    @IBAction func caculateTip(sender: AnyObject) {
+    @IBAction func caculateTip(_ sender: AnyObject) {
         calculateTip()
     }
-    @IBAction func billTouchDown(sender: AnyObject) {
+    
+    @IBAction func billTextFieldTouchDown(_ sender: UITextField) {
         if !isTextFieldFocused{
             isTextFieldFocused = true
             billTextField.text = ""
+            tipLabel.text = "$0.0"
+            totalLabel.text = "$0.0"
         }
+
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tipControl.selectedSegmentIndex = Settings.segmentIndex
+        //set theme
+        if Settings.isLight{
+            Style.setLightTheme()
+        }
+        else{
+            Style.setDarkThem()
+        }
+        self.view.backgroundColor = Style.backgroundColor
+        self.view.tintColor = Style.textColor
+        self.recentTableView.backgroundColor = Style.backgroundColor
+        setTextColor(textColor: Style.textColor!)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
     }
     
     func calculateTip(){
         bill = Double(billTextField.text!) ?? 0
         tip = bill * tipercentages[tipControl.selectedSegmentIndex]
         let total = bill + tip
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
+        tipLabel.text = formatCurrency(total: tip) //String(format: "$%.2f", tip)
+        totalLabel.text = formatCurrency(total: total)
 
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recentBills.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "RecentTableViewCell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! RecentTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath as IndexPath) as! RecentTableViewCell
         
         let row = indexPath.row
-        cell.billLabel.text = String(format:"%.2f$", recentBills[row].bill)
-        cell.tiplabel.text = String(format:"%.2f$", recentBills[row].tip)
+        cell.billLabel.text = formatCurrency(total: recentBills[row].bill)//String(format:"%.2f$", recentBills[row].bill)
+        cell.tiplabel.text = formatCurrency(total: recentBills[row].tip)//String(format:"%.2f$", recentBills[row].tip)
         return cell
     }
     
@@ -136,7 +154,40 @@ class ViewController: UIViewController, UITableViewDataSource{
     }
     
     func loadRecentBills()-> [Bill]?{
-        return NSKeyedUnarchiver.unarchiveObjectWithFile((Bill.ArchiveURL?.path)!) as? [Bill]
+        
+        var recents = NSKeyedUnarchiver.unarchiveObject(withFile: (Bill.ArchiveURL?.path)!) as? [Bill]
+        if recents == nil{
+            recents = [Bill]()
+        }
+        return recents
+    }
+    
+    func formatCurrency(total:Double)->String{
+        let formatter = NumberFormatter()
+        formatter.locale = NSLocale.current//NSLocale(localeIdentifier: "es_ES") as Locale!//
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 1;
+        return formatter.string(from: NSNumber(value:total))!
+    }
+    
+    func getLabelsInView(view:UIView) -> [UILabel]{
+        var result = [UILabel]()
+        for subview in view.subviews as [UIView]{
+            if let labelView = subview as? UILabel{
+                result += [labelView]
+            }
+            else{
+                result += getLabelsInView(view: subview)
+            }
+        }
+        return result
+    }
+    
+    func setTextColor(textColor:UIColor){
+        let labels = getLabelsInView(view: self.view)
+        for label in labels{
+            label.textColor = textColor
+        }
     }
 }
 

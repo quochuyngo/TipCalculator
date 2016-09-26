@@ -15,6 +15,7 @@
 		5A7CA96B1D87FBC700706F50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7CA9691D87FBC700706F50 /* Main.storyboard */; };
 		5A7CA96D1D87FBC700706F50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A7CA96C1D87FBC700706F50 /* Assets.xcassets */; };
 		5A7CA9701D87FBC700706F50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A7CA96E1D87FBC700706F50 /* LaunchScreen.storyboard */; };
+		5AB6543A1D943C790029B379 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB654391D943C790029B379 /* Style.swift */; };
 		5ADD263F1D8DAE5900898C25 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD263E1D8DAE5900898C25 /* Time.swift */; };
 		5AF8F5111D8ECF7900B88094 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8F5101D8ECF7900B88094 /* SettingsTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 		5A7CA9711D87FBC700706F50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A7CA9761D87FBC700706F50 /* Tip Calculator.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tip Calculator.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A7CA9811D87FBC700706F50 /* Tip Calculator.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tip Calculator.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AB654391D943C790029B379 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		5ADD263E1D8DAE5900898C25 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		5AF8F5101D8ECF7900B88094 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +106,7 @@
 				5A7CA9651D87FBC700706F50 /* AppDelegate.swift */,
 				5ADD263E1D8DAE5900898C25 /* Time.swift */,
 				5A7CA9671D87FBC700706F50 /* ViewController.swift */,
+				5AB654391D943C790029B379 /* Style.swift */,
 				5A7CA9691D87FBC700706F50 /* Main.storyboard */,
 				5A36AA321D8BE93A0095E542 /* RecentTableViewCell.swift */,
 				5A36AA341D8BF5C20095E542 /* Bill.swift */,
@@ -177,18 +180,22 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Quoc Huy Ngo";
 				TargetAttributes = {
 					5A7CA9611D87FBC700706F50 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Manual;
 					};
 					5A7CA9751D87FBC700706F50 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 5A7CA9611D87FBC700706F50;
 					};
 					5A7CA9801D87FBC700706F50 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 5A7CA9611D87FBC700706F50;
 					};
 				};
@@ -252,6 +259,7 @@
 				5AF8F5111D8ECF7900B88094 /* SettingsTableViewController.swift in Sources */,
 				5A7CA9681D87FBC700706F50 /* ViewController.swift in Sources */,
 				5A7CA9661D87FBC700706F50 /* AppDelegate.swift in Sources */,
+				5AB6543A1D943C790029B379 /* Style.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,8 +326,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -363,8 +373,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -383,6 +395,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -391,11 +404,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = tipcalculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculator;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -403,11 +420,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = tipcalculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculator;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -419,6 +440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculatorTests;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tip Calculator.app/Tip Calculator";
 			};
 			name = Debug;
@@ -431,6 +453,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculatorTests;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tip Calculator.app/Tip Calculator";
 			};
 			name = Release;
@@ -442,6 +465,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculatorUITests;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = tipcalculator;
 			};
 			name = Debug;
@@ -453,6 +477,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quochuyngo.tipcalculatorUITests;
 				PRODUCT_NAME = "Tip Calculator";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = tipcalculator;
 			};
 			name = Release;

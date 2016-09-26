@@ -12,8 +12,8 @@ class Bill: NSObject, NSCoding{
     var bill:Double
     var tip:Double
     //var total:String
-    static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-    static let ArchiveURL = DocumentsDirectory?.URLByAppendingPathComponent("recentBills")
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first
+    static let ArchiveURL = DocumentsDirectory?.appendingPathComponent("recentBills")
     
     init?(bill:Double, tip:Double){
         self.bill = bill
@@ -28,14 +28,15 @@ class Bill: NSObject, NSCoding{
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let bill = aDecoder.decodeDoubleForKey(PropertyKey.billKey)
-        let tip = aDecoder.decodeDoubleForKey(PropertyKey.tipKey)
+        let bill = aDecoder.decodeDouble(forKey: PropertyKey.billKey)
+        let tip = aDecoder.decodeDouble(forKey: PropertyKey.tipKey)
         
         self.init(bill:bill, tip:tip)
     }
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeDouble(bill, forKey: PropertyKey.billKey)
-        aCoder.encodeDouble(tip, forKey: PropertyKey.tipKey)
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(bill, forKey: PropertyKey.billKey)
+        aCoder.encode(tip, forKey: PropertyKey.tipKey)
     }
 }
 
