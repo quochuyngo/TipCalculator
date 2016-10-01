@@ -26,8 +26,6 @@ class ViewController: UIViewController, UITableViewDataSource{
         super.viewDidLoad()
         
         //set animation
-        //billTextField.center.x -= view.bounds.width
-        //self.view.alpha = 0;
         UIView.animate(withDuration: 0.4, delay:0.45, options: .transitionFlipFromLeft, animations: {
             
             self.billTextField.center.y += self.view.bounds.height
@@ -42,6 +40,9 @@ class ViewController: UIViewController, UITableViewDataSource{
             Settings.fromDictionary(dictionary: dict)
             tipControl.selectedSegmentIndex = Settings.segmentIndex
         }
+        
+        //set default tip
+        setDefault()
         
         //load recent bills
         recentBills = loadRecentBills()!
@@ -71,7 +72,6 @@ class ViewController: UIViewController, UITableViewDataSource{
         if isTextFieldFocused{
             isTextFieldFocused = false
             if(!(billTextField.text?.isEmpty)!){
-                //recentBills.append(Bill(bill: bill, tip: tip)!)
                 recentBills.insert(Bill(bill: bill, tip: tip)!, at: 0)
                 recentTableView.reloadData()
             }
@@ -95,9 +95,7 @@ class ViewController: UIViewController, UITableViewDataSource{
     @IBAction func billTextFieldTouchDown(_ sender: UITextField) {
         if !isTextFieldFocused{
             isTextFieldFocused = true
-            billTextField.text = ""
-            tipLabel.text = "$0.0"
-            totalLabel.text = "$0.0"
+            setDefault()
         }
 
     }
@@ -112,7 +110,6 @@ class ViewController: UIViewController, UITableViewDataSource{
             Style.setDarkThem()
         }
         self.view.backgroundColor = Style.backgroundColor
-        self.view.tintColor = Style.textColor
         self.recentTableView.backgroundColor = Style.backgroundColor
         setTextColor(textColor: Style.textColor!)
     }
@@ -188,6 +185,14 @@ class ViewController: UIViewController, UITableViewDataSource{
         for label in labels{
             label.textColor = textColor
         }
+    }
+    
+    func setDefault(){
+        let tipDefault = formatCurrency(total: 0.0)
+        billTextField.text = ""
+        billTextField.placeholder = tipDefault
+        tipLabel.text = tipDefault
+        totalLabel.text = tipDefault
     }
 }
 

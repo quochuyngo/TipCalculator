@@ -14,7 +14,7 @@ struct Style{
     
     static func setLightTheme(){
         self.textColor = UIColor.black
-        self.backgroundColor = UIColor(red: 46/255, green: 228/255, blue: 185/255, alpha: 1)
+        self.backgroundColor = UIColor.white//UIColor(red: 46/255, green: 228/255, blue: 185/255, alpha: 1)
     }
     
     static func setDarkThem(){
