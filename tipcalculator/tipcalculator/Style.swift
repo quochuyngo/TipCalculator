@@ -9,8 +9,8 @@
 import UIKit
 
 struct Style{
-    static var textColor:UIColor?
-    static var backgroundColor:UIColor?
+    static var textColor:UIColor? = UIColor.black
+    static var backgroundColor:UIColor? = UIColor.white
     
     static func setLightTheme(){
         self.textColor = UIColor.black

@@ -8,13 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource{
+class ViewController: UIViewController, UITableViewDataSource, UITextFieldDelegate{
 
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var billTextField: UITextField!
     @IBOutlet weak var tipControl: UISegmentedControl!
     @IBOutlet var recentTableView: UITableView!
+    @IBOutlet weak var totalView: UIView!
     
     let tipercentages = [0.15, 0.2, 0.25]
     var bill:Double! = 0
@@ -25,7 +26,7 @@ class ViewController: UIViewController, UITableViewDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set animation
+        //set animation textfield
         UIView.animate(withDuration: 0.4, delay:0.45, options: .transitionFlipFromLeft, animations: {
             
             self.billTextField.center.y += self.view.bounds.height
@@ -33,7 +34,6 @@ class ViewController: UIViewController, UITableViewDataSource{
 
         //set focus to the textField
         billTextField.becomeFirstResponder()
-        recentTableView.dataSource = self
         
         //get settings
         if let dict = UserDefaults.standard.object(forKey: Keys.APP_SETTINGS) as? Dictionary<String, AnyObject>{
@@ -46,19 +46,27 @@ class ViewController: UIViewController, UITableViewDataSource{
         
         //load recent bills
         recentBills = loadRecentBills()!
+        if let oldBill = UserDefaults.standard.string(forKey: Keys.LAST_BILL){
+            Settings.lastBill = oldBill
+        }
         
+        //set lastBill
         if Settings.isClearData{
             //get time recent
             let timeRecent = UserDefaults.standard.integer(forKey: Keys.MOST_RECENT)
             let curentTime = Time.getCurrentTime()
-            print(curentTime - timeRecent)
-            print(Settings.timeToClearData )
             if (curentTime - timeRecent) > Settings.timeToClearData {
                 recentBills.removeAll()
+                Settings.lastBill = ""
             }
         }
+        billTextField.text = Settings.lastBill
+        
         self.automaticallyAdjustsScrollViewInsets = false
+        recentTableView.dataSource = self
         recentTableView.reloadData()
+        
+        self.billTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,13 +90,10 @@ class ViewController: UIViewController, UITableViewDataSource{
 
     @IBAction func tipSegmentValueChanged(_ sender: AnyObject) {
         calculateTip()
-        
-        /*if(!(billTextField.text?.isEmpty)!){
-            recentBills.append(Bill(bill: bill, tip: tip)!)
-            recentTableView.reloadData()
-        }*/
     }
+    
     @IBAction func caculateTip(_ sender: AnyObject) {
+        Settings.lastBill = billTextField.text!
         calculateTip()
     }
     
@@ -99,36 +104,55 @@ class ViewController: UIViewController, UITableViewDataSource{
         }
 
     }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        var result = true
+        let prospectiveText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if !string.isEmpty {
+            let disallowedCharacterSet = CharacterSet(charactersIn: "0123456789.").inverted
+            //check string contains any charaters from CharactersSet
+            let replacementStringIsLegal = string.rangeOfCharacter(from: disallowedCharacterSet) == nil
+            
+            //limit number of characters
+            let resultingStringLengthIsLegal = prospectiveText.characters.count <= 9
+            
+            //check decimal number format
+            let scanner = Scanner(string: prospectiveText)
+            let resultingTextIsNumeric = scanner.scanDecimal(nil) && scanner.isAtEnd
+            
+            result = replacementStringIsLegal &&
+            resultingStringLengthIsLegal && resultingTextIsNumeric
+        }
+        return result
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tipControl.selectedSegmentIndex = Settings.segmentIndex
         //set theme
+
         if Settings.isLight{
             Style.setLightTheme()
+            themeAnimation(colorChange: UIColor.darkGray, view: view)
+            //themeAnimation(colorChange: UIColor.gray, view: view)
         }
         else{
             Style.setDarkThem()
+            themeAnimation(colorChange: UIColor.white, view: view)
+            //themeAnimation(colorChange: UIColor.cyan, view: view)
+            
         }
-        self.view.backgroundColor = Style.backgroundColor
+        ///self.view.backgroundColor = Style.backgroundColor
         self.recentTableView.backgroundColor = Style.backgroundColor
         setTextColor(textColor: Style.textColor!)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
     }
     
-    func calculateTip(){
-        bill = Double(billTextField.text!) ?? 0
-        tip = bill * tipercentages[tipControl.selectedSegmentIndex]
-        let total = bill + tip
-        tipLabel.text = formatCurrency(total: tip) //String(format: "$%.2f", tip)
-        totalLabel.text = formatCurrency(total: total)
-
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recentBills.count
     }
@@ -143,6 +167,15 @@ class ViewController: UIViewController, UITableViewDataSource{
         return cell
     }
     
+    func calculateTip(){
+        bill = Double(billTextField.text!) ?? 0
+        tip = bill * tipercentages[tipControl.selectedSegmentIndex]
+        let total = bill + tip
+        tipLabel.text = formatCurrency(total: tip) //String(format: "$%.2f", tip)
+        totalLabel.text = formatCurrency(total: total)
+        
+    }
+
     func saveRecentBills(){
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(recentBills, toFile: (Bill.ArchiveURL?.path)!)
         if !isSuccessfulSave{
@@ -188,11 +221,32 @@ class ViewController: UIViewController, UITableViewDataSource{
     }
     
     func setDefault(){
+        let lastBill:String = ""
+        billTextField.text = lastBill
         let tipDefault = formatCurrency(total: 0.0)
-        billTextField.text = ""
         billTextField.placeholder = tipDefault
         tipLabel.text = tipDefault
         totalLabel.text = tipDefault
     }
+    
+    //check input bill contain letters
+    func containsLetters(input: String) -> Bool {
+        for chr in input.characters {
+            if ((chr >= "a" && chr <= "z") || (chr >= "A" && chr <= "Z") ) {
+                return false
+            }
+        }
+        return true
+    }
+    
+    //animation change theme
+    func themeAnimation(colorChange:UIColor,view:UIView){
+        UIView.animate(withDuration: 3, delay: 0.0, options:[UIViewAnimationOptions.transitionFlipFromBottom], animations: {
+            self.view.backgroundColor = colorChange
+            self.recentTableView.backgroundColor = colorChange
+            self.view.backgroundColor = Style.backgroundColor
+            self.recentTableView.backgroundColor = Style.backgroundColor
+            //Style.setLightTheme()
+            }, completion:nil)
+    }
 }
-

@@ -44,6 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let curentTime = Time.getCurrentTime()
         UserDefaults.standard.set(curentTime, forKey: Keys.MOST_RECENT)
         
+        //save last bill
+        UserDefaults.standard.set(Settings.lastBill, forKey: Keys.LAST_BILL)
         //save app settings
         UserDefaults.standard.set(Settings.toDictionary(), forKey: Keys.APP_SETTINGS)
     }

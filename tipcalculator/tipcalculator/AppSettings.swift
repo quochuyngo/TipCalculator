@@ -15,9 +15,11 @@ struct Keys{
     static let APP_SETTINGS:String = "appSettings"
     static let IS_CLEAR_DATA:String = "isClearData"
     static let THEME:String = "isLight"
+    static let LAST_BILL = "lastBill"
 }
 
 struct Settings {
+    static var lastBill:String = ""
     static var segmentIndex:Int = 0
     static var timeToClearData:Int = 0
     static var isClearData:Bool = true
@@ -33,6 +35,7 @@ struct Settings {
     }
     
     static func fromDictionary(dictionary:Dictionary<String, AnyObject>){
+        
         if let segmentIndex = dictionary[Keys.SEGMENT_INDEX] as? Int{
             self.segmentIndex = segmentIndex
         }
