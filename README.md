@@ -21,4 +21,4 @@ The following **optional** features are implemented:
 ## Video Walkthrough 
 Here's a walkthrough of implemented user stories:
 
-![tipcalculatordemo2](https://cloud.githubusercontent.com/assets/10734967/19015937/3b0782ec-8838-11e6-915d-f3073f6ab022.gif)
+![tipcalculatordemo4](https://cloud.githubusercontent.com/assets/10734967/19144602/c74152f2-8bd4-11e6-8d1e-1fc9383c336f.gif)
